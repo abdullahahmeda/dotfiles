@@ -1,0 +1,7 @@
+{
+  "coc.preferences.formatOnSave": true,
+  "diagnostic.errorSign": "",
+  "diagnostic.virtualText": true,
+  "diagnostic.virtualTextCurrentLineOnly": false,
+  "tailwindCSS.headwind.runOnSave": true
+}
