@@ -5,7 +5,7 @@ require 'bootstrap'
 
 require('lazy').setup {
   {
-    { 'williamboman/mason.nvim',           opts = {} },
+    { 'williamboman/mason.nvim', opts = {} },
     { 'williamboman/mason-lspconfig.nvim', opts = {} },
     'neovim/nvim-lspconfig',
   },
@@ -19,8 +19,11 @@ require('lazy').setup {
   { 'nivm-lua/plenary.nvim' },
 
   {
-    'nvim-treesitter/nvim-treesitter',
-    build = ':TSUpdate',
+    'nvim-treesitter/nvim-treesitter-textobjects',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter',
+      build = ':TSUpdate',
+    },
   },
 
   -- Auto session (for restoring previous sessions)
@@ -188,6 +191,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 
 require('nvim-treesitter.configs').setup {
   highlight = { enable = true },
+  textobjects = {
+    select = {
+      enable = true,
+      keymaps = {
+        ['af'] = '@function.outer',
+        ['if'] = '@function.inner',
+      },
+    },
+  },
 }
 
 local null_ls = require 'null-ls'
@@ -218,6 +230,13 @@ vim.keymap.set('n', '<leader>tt', function()
   vim.api.nvim_win_set_height(0, 8)
 end, { desc = 'Open terminal' })
 
-local bufdelete = require('plugins/bufdelete')
+local bufdelete = require 'plugins/bufdelete'
 vim.keymap.set('n', '<leader>bd', bufdelete.delete, { desc = 'Close current buffer' })
 vim.keymap.set('n', '<leader>bo', bufdelete.other, { desc = 'Keep the current buffer only', silent = true })
+
+-- LSP servers and clients are able to communicate to each other what features they support.
+--  By default, Neovim doesn't support everything that is in the LSP specification.
+--  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
+--  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
+local capabilities = vim.lsp.protocol.make_client_capabilities()
+capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
