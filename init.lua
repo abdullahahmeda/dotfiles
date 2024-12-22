@@ -50,23 +50,6 @@ require('lazy').setup {
     end,
   },
 
-  -- Fold
-  -- {
-  --   'kevinhwang91/nvim-ufo',
-  --   dependencies = 'kevinhwang91/promise-async'
-  -- },
-
-  -- {
-  --   "aserowy/tmux.nvim",
-  --   opts = {}
-  -- },
-
-  -- {
-  --   'nvim-telescope/telescope.nvim',
-  --   tag = '0.1.8',
-  --   dependencies = { 'nvim-lua/plenary.nvim' },
-  -- },
-
   {
     'stevearc/oil.nvim',
     dependencies = { 'nvim-tree/nvim-web-devicons' }, -- use if prefer nvim-web-devicons
@@ -136,20 +119,6 @@ cmp.setup {
     -- completion = cmp.config.window.bordered(),
     documentation = cmp.config.window.bordered(),
   },
-
-  -- formatting = {
-  --   format = function(entry, vim_item)
-  --     if vim.tbl_contains({ 'path' }, entry.source.name) then
-  --       local icon, hl_group = require('nvim-web-devicons').get_icon(entry:get_completion_item().label)
-  --       if icon then
-  --         vim_item.kind = icon
-  --         vim_item.kind_hl_group = hl_group
-  --         return vim_item
-  --       end
-  --     end
-  --     return require('lspkind').cmp_format({ with_text = false })(entry, vim_item)
-  --   end
-  -- }
 }
 
 function custom_format()
@@ -157,31 +126,6 @@ function custom_format()
 end
 
 vim.api.nvim_create_user_command('Format', custom_format, {})
-
--- local setup_mappings = function()
---   vim.keymap.set('n', 'gd', vim.lsp.buf.definition, { desc = "Go to definition", silent = true })
---   vim.keymap.set('n', 'gr', vim.lsp.buf.references, { noremap = true, silent = true })
---   -- vim.keymap.set('n', 'gs', require('telescope.builtin').lsp_document_symbols, { noremap = true, silent = true })
---
---   vim.keymap.set('n', '<C-h>', '<Cmd>noh<Cr>')
---
---   -- Quickfix
---   vim.keymap.set('n', '[q', '<Cmd>cprev<CR>', { desc = "Previous qfixlist item" })
---   vim.keymap.set('n', ']q', '<Cmd>cnext<CR>', { desc = "Previous qfixlist item" })
---
---   -- Telescope. Prefixed with: <leader>f
---   local builtin = require('telescope.builtin')
---   vim.keymap.set('n', '<leader>ff', builtin.find_files, { desc = "Find files" })
---   vim.keymap.set('n', '<leader>fs', builtin.grep_string, { desc = "Find string under cursor" })
---   vim.keymap.set('n', '<leader>fg', builtin.live_grep, { desc = "Live grep" })
---   vim.keymap.set('n', '<leader>fb', builtin.buffers, { desc = "Buffers" })
---   vim.keymap.set('n', '<leader>fe', '<Cmd>Oil --float<Cr>', { desc = 'File explorer' })
---
---   vim.keymap.set("v", "J", ":m '>+1<CR>gv=gv")
---   vim.keymap.set("v", "K", ":m '<-2<CR>gv=gv")
--- end
-
--- setup_mappings()
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
