@@ -3,6 +3,7 @@ require 'vim_options'
 -- Bootstrap package manager (Lazy)
 require 'bootstrap'
 
+
 require('lazy').setup {
   {
     { 'williamboman/mason.nvim', opts = {} },
@@ -13,10 +14,39 @@ require('lazy').setup {
   { 'nvimtools/none-ls.nvim' },
   { 'nvimtools/none-ls-extras.nvim' },
 
-  { 'hrsh7th/cmp-nvim-lsp' },
-  { 'hrsh7th/nvim-cmp' },
+  -- { 'hrsh7th/cmp-nvim-lsp' },
+  -- { 'hrsh7th/nvim-cmp' },
 
-  { 'nivm-lua/plenary.nvim' },
+  {
+    'saghen/blink.cmp',
+    version = '*',
+
+    ---@module 'blink.cmp'
+    ---@type blink.cmp.Config
+    opts = {
+      cmdline = {
+        enabled = false,
+      },
+
+      keymap = { preset = 'default' },
+
+      appearance = {
+        -- Set to 'mono' for 'Nerd Font Mono' or 'normal' for 'Nerd Font'
+        -- Adjusts spacing to ensure icons are aligned
+        nerd_font_variant = 'mono',
+      },
+
+      -- Default list of enabled providers defined so that you can extend it
+      -- elsewhere in your config, without redefining it, due to `opts_extend`
+      sources = {
+        default = { 'lsp', 'snippets' },
+      },
+      fuzzy = { implementation = 'prefer_rust_with_warning' },
+    },
+    opts_extend = { 'sources.default' },
+  },
+
+  { 'nvim-lua/plenary.nvim' },
 
   {
     'nvim-treesitter/nvim-treesitter-textobjects',
@@ -24,6 +54,27 @@ require('lazy').setup {
       'nvim-treesitter/nvim-treesitter',
       build = ':TSUpdate',
     },
+  },
+
+  {
+    'neovim/nvim-lspconfig',
+    dependencies = { 'saghen/blink.cmp' },
+
+    -- example using `opts` for defining servers
+    opts = {
+      servers = {
+        lua_ls = {},
+      },
+    },
+    config = function(_, opts)
+      local lspconfig = require 'lspconfig'
+      for server, config in pairs(opts.servers) do
+        -- passing config.capabilities to blink.cmp merges with the capabilities in your
+        -- `opts[server].capabilities, if you've defined it
+        config.capabilities = require('blink.cmp').get_lsp_capabilities(config.capabilities)
+        lspconfig[server].setup(config)
+      end
+    end,
   },
 
   -- Auto session (for restoring previous sessions)
@@ -92,35 +143,6 @@ require('mason-lspconfig').setup_handlers {
   -- end
 }
 
-local cmp = require 'cmp'
-
-cmp.setup {
-  completion = { autocomplete = false },
-  snippet = {
-    -- REQUIRED - you must specify a snippet engine
-    expand = function(args)
-      vim.snippet.expand(args.body) -- For native neovim snippets (Neovim v0.10+)
-    end,
-  },
-  sources = cmp.config.sources({
-    { name = 'nvim_lsp' },
-  }, {
-    { name = 'buffer' },
-  }),
-  mapping = cmp.mapping.preset.insert {
-    -- ['<C-b>'] = cmp.mapping.scroll_docs(-4),
-    -- ['<C-f>'] = cmp.mapping.scroll_docs(4),
-    ['<C-Space>'] = cmp.mapping.complete(),
-    -- ['<C-e>'] = cmp.mapping.abort(),
-    ['<CR>'] = cmp.mapping.confirm { select = true }, -- Accept currently selected item. Set `select` to `false` to only confirm explicitly selected items.
-  },
-
-  window = {
-    -- completion = cmp.config.window.bordered(),
-    documentation = cmp.config.window.bordered(),
-  },
-}
-
 function custom_format()
   vim.lsp.buf.format { range = nil }
 end
@@ -136,6 +158,15 @@ vim.api.nvim_create_autocmd('TextYankPost', {
 require('nvim-treesitter.configs').setup {
   highlight = { enable = true },
   textobjects = {
+    move = {
+      enable = true,
+      goto_next_start = {
+        [']f'] = '@function.outer',
+      },
+      goto_previous_start = {
+        ['[f'] = '@function.outer',
+      },
+    },
     select = {
       enable = true,
       keymaps = {
@@ -177,10 +208,3 @@ end, { desc = 'Open terminal' })
 local bufdelete = require 'plugins/bufdelete'
 vim.keymap.set('n', '<leader>bd', bufdelete.delete, { desc = 'Close current buffer' })
 vim.keymap.set('n', '<leader>bo', bufdelete.other, { desc = 'Keep the current buffer only', silent = true })
-
--- LSP servers and clients are able to communicate to each other what features they support.
---  By default, Neovim doesn't support everything that is in the LSP specification.
---  When you add nvim-cmp, luasnip, etc. Neovim now has *more* capabilities.
---  So, we create new capabilities with nvim cmp, and then broadcast that to the servers.
-local capabilities = vim.lsp.protocol.make_client_capabilities()
-capabilities = vim.tbl_deep_extend('force', capabilities, require('cmp_nvim_lsp').default_capabilities())
