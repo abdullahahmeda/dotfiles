@@ -11,6 +11,8 @@ require('lazy').setup {
     'neovim/nvim-lspconfig',
   },
 
+  { 'tpope/vim-fugitive' },
+
   { 'nvimtools/none-ls.nvim' },
   { 'nvimtools/none-ls-extras.nvim' },
 
