@@ -22,7 +22,7 @@ vim.pack.add {
 
   { src ='https://github.com/nyoom-engineering/oxocarbon.nvim' },
   -- { src = 'https://github.com/sainnhe/gruvbox-material' },
-  
+
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
 
   { src = 'https://github.com/nvim-mini/mini.pick' },
@@ -33,14 +33,27 @@ vim.lsp.enable({ 'ts_ls' })
 require('oil').setup()
 require('mason').setup()
 require('blink.cmp').setup({
-  keymap = { preset = 'default' },
+  keymap = { 
+    ['<C-k>'] = { 'show_documentation', 'hide_documentation' },
+    ['<C-n>'] = { 'select_next', 'show' },
+    ['<C-p>'] = { 'select_prev', 'show' },
+    ['<C-y>'] = { 'select_and_accept' },
+    ['<Tab>'] = { 'snippet_forward' },
+    ['<S-Tab>'] = { 'snippet_backward' },
+  },
 
   fuzzy = { implementation = 'lua' },
 
   completion = {
     menu = {
-      auto_show = false
-    }
+      auto_show = false,
+      draw = {
+      columns = {
+        { "kind_icon", "label",  gap = 1 },
+        { "kind", "label_description", gap = 2 }
+      },
+      }
+    },
   }
 })
 require('mini.pick').setup()
@@ -49,11 +62,6 @@ require('mini.pick').setup()
 vim.o.background = 'dark'
 vim.cmd.colorscheme 'oxocarbon'
 
--- function custom_format()
---   vim.lsp.buf.format { range = nil }
--- end
---
--- vim.api.nvim_create_user_command('Format', custom_format, {})
 
 vim.api.nvim_create_autocmd('TextYankPost', {
   callback = function()
@@ -83,17 +91,17 @@ require('nvim-treesitter.configs').setup {
   },
 }
 
--- local null_ls = require 'null-ls'
---
--- null_ls.setup {
---   sources = {
---     null_ls.builtins.formatting.stylua,
---     null_ls.builtins.formatting.prettierd,
---     require('none-ls.diagnostics.eslint_d').with {
---       diagnostics_format = '[eslint] #{m}\n(#{c})',
---     },
---   },
--- }
+  -- local null_ls = require 'null-ls'
+  --
+  -- null_ls.setup {
+    --   sources = {
+      --     null_ls.builtins.formatting.stylua,
+      --     null_ls.builtins.formatting.prettierd,
+      --     require('none-ls.diagnostics.eslint_d').with {
+        --       diagnostics_format = '[eslint] #{m}\n(#{c})',
+        --     },
+        --   },
+        -- }
 
 vim.keymap.set('n', '<leader>oo', ':Oil<CR>', { desc = 'Open file explorer' })
 
@@ -106,14 +114,13 @@ vim.keymap.set('n', 'grd', vim.lsp.buf.definition, { desc = 'Definition' })
 vim.keymap.set('n', '<leader>lf', vim.lsp.buf.format)
 vim.keymap.set('n', '<leader>ff', ':Pick files<CR>')
 
--- vim.keymap.set('n', '<leader>tt', function()
---   vim.cmd.new()
---   vim.cmd.wincmd 'J'
---   vim.cmd.term()
---   vim.api.nvim_win_set_height(0, 8)
--- end, { desc = 'Open terminal' })
+        -- vim.keymap.set('n', '<leader>tt', function()
+          --   vim.cmd.new()
+          --   vim.cmd.wincmd 'J'
+          --   vim.cmd.term()
+          --   vim.api.nvim_win_set_height(0, 8)
+          -- end, { desc = 'Open terminal' })
 
 local bufdelete = require 'plugins/bufdelete'
 vim.keymap.set('n', '<leader>bd', bufdelete.delete, { desc = 'Close current buffer' })
 vim.keymap.set('n', '<leader>bo', bufdelete.other, { desc = 'Keep the current buffer only', silent = true })
-
