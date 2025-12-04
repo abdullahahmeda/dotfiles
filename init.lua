@@ -12,23 +12,45 @@ vim.o.signcolumn     = "yes"
 vim.o.grepprg        = "rg --vimgrep --no-heading" 
 
 vim.pack.add {
+  -- dependencies
   { src = 'https://github.com/nvim-lua/plenary.nvim' },
+
+  -- file explorer & manager
   { src = 'https://github.com/stevearc/oil.nvim' },
+
+  -- lsps, formatters and linters installer
   { src = 'https://github.com/williamboman/mason.nvim' },
+
+  -- completion engine
   { src = 'https://github.com/saghen/blink.cmp' },
+
+  -- treesitter, syntax highlighting
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
+
   { src = 'https://github.com/neovim/nvim-lspconfig' },
+
+  -- linter
   { src = 'https://github.com/mfussenegger/nvim-lint' },
+
+  -- formatter
   { src = 'https://github.com/stevearc/conform.nvim' },
-  { src = 'https://github.com/sindrets/diffview.nvim' },
+
+  -- git integration
   { src = 'https://github.com/NeogitOrg/neogit' },
+  { src = 'https://github.com/sindrets/diffview.nvim' },
+
+  -- colorscheme
   { src ='https://github.com/nyoom-engineering/oxocarbon.nvim' },
-  { src = 'https://github.com/nvim-lualine/lualine.nvim' },
   -- { src = 'https://github.com/sainnhe/gruvbox-material' },
 
+  -- status line
+  { src = 'https://github.com/nvim-lualine/lualine.nvim' },
+
+  -- icons
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
 
+  -- picker (for files, folders, commands, help, grep, etc...)
   { src = 'https://github.com/nvim-mini/mini.pick' },
 }
 
@@ -37,119 +59,16 @@ vim.lsp.enable({ 'ts_ls', 'intelephense', 'prismals' })
 require('neogit').setup()
 require('oil').setup()
 require('mason').setup()
-require('blink.cmp').setup({
-  keymap = { 
-    ['<C-k>'] = { 'show_documentation', 'hide_documentation' },
-    ['<C-n>'] = { 'select_next', 'show' },
-    ['<C-p>'] = { 'select_prev', 'show' },
-    ['<C-y>'] = { 'select_and_accept' },
-    -- ['<Tab>'] = { 'snippet_forward' },
-    -- ['<S-Tab>'] = { 'snippet_backward' },
-  },
-
-  fuzzy = { implementation = 'lua' },
-  cmdline = { enabled = false },
-
-  completion = {
-    menu = {
-      auto_show = false,
-      draw = {
-      columns = {
-        { "kind_icon", "label",  gap = 1 },
-        { "kind", "label_description", gap = 2 }
-      },
-      }
-    },
-  }
-})
 require('mini.pick').setup()
-require('lint').linters_by_ft = {
-  javascript = {'eslint_d'},
-  javascriptreact = {'eslint_d'},
-  typescriptreact = {'eslint_d'},
-  typescript = {'eslint_d'},
-}
-vim.api.nvim_create_autocmd({ "BufWritePost" }, {
-  callback = function()
-    require("lint").try_lint()
-  end,
-})
 
-require("conform").setup({
-  formatters_by_ft = {
-    javascript = {'prettierd'},
-    javascriptreact = {'prettierd'},
-    typescriptreact = {'prettierd'},
-    typescript = {'prettierd'},
-    html = {'prettierd'},
-  },
-})
+require 'setup.plugins.blink_cmp'
+require 'setup.plugins.nvim-lint'
+require 'setup.plugins.conform'
+require 'setup.plugins.lualine'
+require 'setup.plugins.nvim-treesitter'
 
-require('lualine').setup({
-  options = {
-    section_separators = { left = '', right = '' },
-    component_separators = { left = '', right = '' }
-  },
-  sections = {
-    lualine_a = {
-      {
-        'mode',
-        color = { gui = 'bold', bg = 'None', fg = 'None' }
-      }
-    },
-    lualine_b = {
-      {
-        'branch',
-        padding = 4
-      },
-    },
-    lualine_c = {'filename',
-    { 
-      'lsp_status',
-      padding = 4,
-      icon = '',
-      symbols = {
-        done = ''
-      }
-  },
-      'diagnostics'
-  },
-    lualine_x = {'diff',  'filetype'},
-    lualine_z = {'location'}
-  }
-})
-
--- vim.cmd.colorscheme 'gruvbox-material'
-vim.o.background = 'dark'
-vim.cmd.colorscheme 'oxocarbon'
-
-vim.api.nvim_create_autocmd('TextYankPost', {
-  callback = function()
-    vim.hl.on_yank { higroup = 'Visual', timeout = 200 }
-  end,
-})
-
-require('nvim-treesitter.configs').setup {
-  highlight = { enable = true },
-  textobjects = {
-    move = {
-      enable = true,
-      goto_next_start = {
-        [']f'] = '@function.outer',
-      },
-      goto_previous_start = {
-        ['[f'] = '@function.outer',
-      },
-    },
-    select = {
-      enable = true,
-      keymaps = {
-        ['af'] = '@function.outer',
-        ['if'] = '@function.inner',
-      },
-    },
-  },
-}
+require 'setup.highlight_on_yank'
+require 'setup.colorscheme'
 
 
 vim.keymap.set('n', '<leader>oo', ':Oil<CR>', { desc = 'Open file explorer' })
