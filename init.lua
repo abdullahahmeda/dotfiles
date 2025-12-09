@@ -41,11 +41,11 @@ vim.pack.add {
   { src = 'https://github.com/sindrets/diffview.nvim' },
 
   -- colorscheme
-  { src ='https://github.com/nyoom-engineering/oxocarbon.nvim' },
+  -- { src ='https://github.com/nyoom-engineering/oxocarbon.nvim' },
   -- { src = 'https://github.com/sainnhe/gruvbox-material' },
 
   -- status line
-  { src = 'https://github.com/nvim-lualine/lualine.nvim' },
+  -- { src = 'https://github.com/nvim-lualine/lualine.nvim' },
 
   -- icons
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
@@ -59,12 +59,12 @@ vim.lsp.enable({ 'ts_ls', 'intelephense', 'prismals' })
 require('neogit').setup()
 require('oil').setup()
 require('mason').setup()
-require('mini.pick').setup()
 
+require 'setup.plugins.mini_pick'
 require 'setup.plugins.blink_cmp'
 require 'setup.plugins.nvim-lint'
 require 'setup.plugins.conform'
-require 'setup.plugins.lualine'
+-- require 'setup.plugins.lualine'
 require 'setup.plugins.nvim-treesitter'
 
 require 'setup.highlight_on_yank'
@@ -73,14 +73,20 @@ require 'setup.colorscheme'
 
 vim.keymap.set('n', '<leader>oo', ':Oil<CR>', { desc = 'Open file explorer' })
 
-vim.keymap.set('n', 'gra', vim.lsp.buf.code_action, { desc = 'Code actions' })
-vim.keymap.set('n', 'grr', vim.lsp.buf.references, { desc = 'References' })
-vim.keymap.set('n', 'grt', vim.lsp.buf.type_definition, { desc = 'Type definition' })
-vim.keymap.set('n', 'gri', vim.lsp.buf.implementation, { desc = 'Implementation' })
-vim.keymap.set('n', 'grn', vim.lsp.buf.rename, { desc = 'Rename' })
-vim.keymap.set('n', 'grd', vim.lsp.buf.definition, { desc = 'Definition' })
-vim.keymap.set('n', '<leader>lf', require('conform').format)
+vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, { desc = 'LSP Code actions' })
+vim.keymap.set('n', '<leader>lr', vim.lsp.buf.references, { desc = 'LSP References' })
+vim.keymap.set('n', '<leader>lt', vim.lsp.buf.type_definition, { desc = 'LSP Type definition' })
+vim.keymap.set('n', '<leader>li', vim.lsp.buf.implementation, { desc = 'LSP Implementation' })
+vim.keymap.set('n', '<leader>ln', vim.lsp.buf.rename, { desc = 'LSP Rename' })
+vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition, { desc = 'LSP Definition' })
+vim.keymap.set('n', '<leader>lD', vim.lsp.buf.declaration, { desc = 'LSP Declaration' })
+vim.keymap.set('n', '<leader>ls', vim.lsp.buf.document_symbol, { desc = 'LSP Document Sybmols' })
+vim.keymap.set('n', '<leader>lh', vim.lsp.buf.signature_help, { desc = 'LSP Signature help' })
+vim.keymap.set('n', '<leader>lf', require('conform').format, { desc = 'LSP Format' })
+
 vim.keymap.set('n', '<leader>ff', ':Pick files<CR>')
+vim.keymap.set('n', '<leader>fg', ':Pick grep<CR>')
+vim.keymap.set('n', '<leader>fr', ':Pick resume<CR>')
 vim.keymap.set('n', '<leader>gg', ':Neogit<CR>')
 
         -- vim.keymap.set('n', '<leader>tt', function()
