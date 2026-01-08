@@ -2,4 +2,10 @@
 -- vim.cmd.colorscheme 'oxocarbon'
 -- vim.cmd.colorscheme 'gruvbox-material'
 
-vim.cmd.colorscheme 'habamax'
+-- vim.cmd.colorscheme 'habamax'
+
+require('kanagawa').setup {
+  compile = true,
+}
+
+vim.cmd.colorscheme 'kanagawa'

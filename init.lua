@@ -26,7 +26,7 @@ vim.pack.add {
 
   -- treesitter, syntax highlighting
   { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
+  -- { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
 
   { src = 'https://github.com/neovim/nvim-lspconfig' },
 
@@ -41,20 +41,30 @@ vim.pack.add {
   { src = 'https://github.com/sindrets/diffview.nvim' },
 
   -- colorscheme
+  { src = 'https://github.com/rebelot/kanagawa.nvim' },
   -- { src ='https://github.com/nyoom-engineering/oxocarbon.nvim' },
   -- { src = 'https://github.com/sainnhe/gruvbox-material' },
 
   -- status line
-  -- { src = 'https://github.com/nvim-lualine/lualine.nvim' },
+  { src = 'https://github.com/nvim-lualine/lualine.nvim' },
 
   -- icons
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
 
+  -- Snippets engine
+  -- { src = 'https://github.com/L3MON4D3/LuaSnip' },
+
+  -- Common snippets for different languages
+  -- { src = 'https://github.com/rafamadriz/friendly-snippets' },
+
   -- picker (for files, folders, commands, help, grep, etc...)
   { src = 'https://github.com/nvim-mini/mini.pick' },
+
+  -- Multicursor
+  { src = 'https://github.com/jake-stewart/multicursor.nvim' }
 }
 
-vim.lsp.enable({ 'ts_ls', 'intelephense', 'prismals' })
+vim.lsp.enable({ 'tsgo', 'intelephense', 'basedpyright', 'prismals' })
 
 require('neogit').setup()
 require('oil').setup()
@@ -64,8 +74,9 @@ require 'setup.plugins.mini_pick'
 require 'setup.plugins.blink_cmp'
 require 'setup.plugins.nvim-lint'
 require 'setup.plugins.conform'
--- require 'setup.plugins.lualine'
+require 'setup.plugins.lualine'
 require 'setup.plugins.nvim-treesitter'
+require 'setup.plugins.multicursor'
 
 require 'setup.highlight_on_yank'
 require 'setup.colorscheme'
