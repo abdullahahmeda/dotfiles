@@ -51,6 +51,9 @@ vim.pack.add {
   -- icons
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
 
+  -- Copilot
+  { src = 'https://github.com/zbirenbaum/copilot.lua' },
+
   -- Snippets engine
   -- { src = 'https://github.com/L3MON4D3/LuaSnip' },
 
@@ -64,11 +67,21 @@ vim.pack.add {
   { src = 'https://github.com/jake-stewart/multicursor.nvim' }
 }
 
-vim.lsp.enable({ 'tsgo', 'intelephense', 'basedpyright', 'prismals' })
+vim.lsp.enable({ 'tsgo', 'gopls', 'intelephense', 'basedpyright', 'prismals' })
 
 require('neogit').setup()
 require('oil').setup()
 require('mason').setup()
+-- require('copilot').setup({
+--   suggestion = {
+--     accept = '<C-y>',
+--     next = '<C-n>',
+--     prev = '<C-p>',
+--     dismiss = '<C-q>'
+--   }
+-- })
+
+-- write a function that gets weather in my city
 
 require 'setup.plugins.mini_pick'
 require 'setup.plugins.blink_cmp'
