@@ -6,7 +6,8 @@ require("conform").setup({
     typescript = {'prettierd'},
     html = {'prettierd'},
     -- php = {'php-cs-fixer'},
-    python = { 'ruff_format' }
+    python = { 'ruff_format' },
+    dart = { 'dart_format' }
   },
   -- formatters = {
   --     ["php-cs-fixer"] = {

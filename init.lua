@@ -29,6 +29,7 @@ vim.pack.add {
   -- { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
 
   { src = 'https://github.com/neovim/nvim-lspconfig' },
+  { src = 'https://github.com/nvim-flutter/flutter-tools.nvim' },
 
   -- linter
   { src = 'https://github.com/mfussenegger/nvim-lint' },
@@ -72,6 +73,7 @@ vim.lsp.enable({ 'tsgo', 'gopls', 'intelephense', 'basedpyright', 'prismals' })
 require('neogit').setup()
 require('oil').setup()
 require('mason').setup()
+require('flutter-tools').setup()
 -- require('copilot').setup({
 --   suggestion = {
 --     accept = '<C-y>',
