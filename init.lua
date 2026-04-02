@@ -12,54 +12,29 @@ vim.o.signcolumn     = "yes"
 vim.o.grepprg        = "rg --vimgrep --no-heading" 
 
 vim.pack.add {
-  -- dependencies
-  { src = 'https://github.com/nvim-lua/plenary.nvim' },
-
   -- file explorer & manager
   { src = 'https://github.com/stevearc/oil.nvim' },
 
   -- lsps, formatters and linters installer
   { src = 'https://github.com/williamboman/mason.nvim' },
 
-  -- completion engine
-  { src = 'https://github.com/saghen/blink.cmp' },
-
   -- treesitter, syntax highlighting
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter' },
-  -- { src = 'https://github.com/nvim-treesitter/nvim-treesitter-textobjects' },
-
-  { src = 'https://github.com/neovim/nvim-lspconfig' },
-  { src = 'https://github.com/nvim-flutter/flutter-tools.nvim' },
+  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
 
   -- linter
-  { src = 'https://github.com/mfussenegger/nvim-lint' },
+  -- { src = 'https://github.com/mfussenegger/nvim-lint' },
 
   -- formatter
   { src = 'https://github.com/stevearc/conform.nvim' },
 
   -- git integration
-  { src = 'https://github.com/NeogitOrg/neogit' },
-  { src = 'https://github.com/sindrets/diffview.nvim' },
+  { src = 'https://github.com/tpope/vim-fugitive' },
 
   -- colorscheme
   { src = 'https://github.com/rebelot/kanagawa.nvim' },
-  -- { src ='https://github.com/nyoom-engineering/oxocarbon.nvim' },
-  -- { src = 'https://github.com/sainnhe/gruvbox-material' },
-
-  -- status line
-  { src = 'https://github.com/nvim-lualine/lualine.nvim' },
 
   -- icons
   { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
-
-  -- Copilot
-  { src = 'https://github.com/zbirenbaum/copilot.lua' },
-
-  -- Snippets engine
-  -- { src = 'https://github.com/L3MON4D3/LuaSnip' },
-
-  -- Common snippets for different languages
-  -- { src = 'https://github.com/rafamadriz/friendly-snippets' },
 
   -- picker (for files, folders, commands, help, grep, etc...)
   { src = 'https://github.com/nvim-mini/mini.pick' },
@@ -68,12 +43,29 @@ vim.pack.add {
   { src = 'https://github.com/jake-stewart/multicursor.nvim' }
 }
 
-vim.lsp.enable({ 'tsgo', 'gopls', 'intelephense', 'basedpyright', 'prismals' })
+-- vim.lsp.config('intelephense', {
+--   settings = {
+--   intelephense = {
+--     files = {
+--       exclude = {
+--         "**/.git/**",
+--         "**/.svn/**",
+--         "**/.hg/**",
+--         "**/node_modules/**",
+--         "**/vendor/**",
+--         "**/storage/**",
+--         "**/bootstrap/cache/**",
+--       },
+--     },
+--   },
+-- }
+-- })
+-- vim.lsp.enable({ 'tsgo', 'gopls', 'intelephense', 'basedpyright', 'prismals' })
 
-require('neogit').setup()
+-- require('neogit').setup()
 require('oil').setup()
 require('mason').setup()
-require('flutter-tools').setup()
+-- require('flutter-tools').setup()
 -- require('copilot').setup({
 --   suggestion = {
 --     accept = '<C-y>',
@@ -86,11 +78,11 @@ require('flutter-tools').setup()
 -- write a function that gets weather in my city
 
 require 'setup.plugins.mini_pick'
-require 'setup.plugins.blink_cmp'
-require 'setup.plugins.nvim-lint'
-require 'setup.plugins.conform'
-require 'setup.plugins.lualine'
-require 'setup.plugins.nvim-treesitter'
+-- require 'setup.plugins.blink_cmp'
+-- require 'setup.plugins.nvim-lint'
+-- require 'setup.plugins.conform'
+-- require 'setup.plugins.lualine'
+-- require 'setup.plugins.nvim-treesitter'
 require 'setup.plugins.multicursor'
 
 require 'setup.highlight_on_yank'
@@ -98,6 +90,7 @@ require 'setup.colorscheme'
 
 
 vim.keymap.set('n', '<leader>oo', ':Oil<CR>', { desc = 'Open file explorer' })
+-- vim.keymap.set('n', '<leader>oo', ':Explore<CR>', { desc = 'Open file explorer' })
 
 vim.keymap.set('n', '<leader>la', vim.lsp.buf.code_action, { desc = 'LSP Code actions' })
 vim.keymap.set('n', '<leader>lr', vim.lsp.buf.references, { desc = 'LSP References' })
@@ -108,12 +101,12 @@ vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition, { desc = 'LSP Definiti
 vim.keymap.set('n', '<leader>lD', vim.lsp.buf.declaration, { desc = 'LSP Declaration' })
 vim.keymap.set('n', '<leader>ls', vim.lsp.buf.document_symbol, { desc = 'LSP Document Sybmols' })
 vim.keymap.set('n', '<leader>lh', vim.lsp.buf.signature_help, { desc = 'LSP Signature help' })
-vim.keymap.set('n', '<leader>lf', require('conform').format, { desc = 'LSP Format' })
+-- vim.keymap.set('n', '<leader>lf', require('conform').format, { desc = 'LSP Format' })
 
 vim.keymap.set('n', '<leader>ff', ':Pick files<CR>')
 vim.keymap.set('n', '<leader>fg', ':Pick grep<CR>')
 vim.keymap.set('n', '<leader>fr', ':Pick resume<CR>')
-vim.keymap.set('n', '<leader>gg', ':Neogit<CR>')
+vim.keymap.set('n', '<leader>gg', ':G<CR>')
 
         -- vim.keymap.set('n', '<leader>tt', function()
           --   vim.cmd.new()
