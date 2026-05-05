@@ -9,7 +9,7 @@ vim.o.cursorline     = true
 vim.o.clipboard      = "unnamedplus"
 vim.o.smartcase      = false
 vim.o.signcolumn     = "yes"
-vim.o.grepprg        = "rg --vimgrep --no-heading" 
+-- vim.o.grepprg        = "rg --vimgrep --no-heading" 
 
 vim.pack.add {
   -- file explorer & manager
@@ -18,23 +18,23 @@ vim.pack.add {
   -- lsps, formatters and linters installer
   { src = 'https://github.com/williamboman/mason.nvim' },
 
-  -- treesitter, syntax highlighting
-  { src = 'https://github.com/nvim-treesitter/nvim-treesitter', version = 'main' },
+  -- config for lsps
+  { src = 'https://github.com/neovim/nvim-lspconfig' },
 
   -- linter
-  -- { src = 'https://github.com/mfussenegger/nvim-lint' },
+  { src = 'https://github.com/mfussenegger/nvim-lint' },
 
   -- formatter
   { src = 'https://github.com/stevearc/conform.nvim' },
 
+  -- completion
+  { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
+
   -- git integration
-  { src = 'https://github.com/tpope/vim-fugitive' },
+  -- use lazygit
 
   -- colorscheme
   { src = 'https://github.com/rebelot/kanagawa.nvim' },
-
-  -- icons
-  { src = 'https://github.com/nvim-tree/nvim-web-devicons' },
 
   -- picker (for files, folders, commands, help, grep, etc...)
   { src = 'https://github.com/nvim-mini/mini.pick' },
@@ -43,29 +43,10 @@ vim.pack.add {
   { src = 'https://github.com/jake-stewart/multicursor.nvim' }
 }
 
--- vim.lsp.config('intelephense', {
---   settings = {
---   intelephense = {
---     files = {
---       exclude = {
---         "**/.git/**",
---         "**/.svn/**",
---         "**/.hg/**",
---         "**/node_modules/**",
---         "**/vendor/**",
---         "**/storage/**",
---         "**/bootstrap/cache/**",
---       },
---     },
---   },
--- }
--- })
--- vim.lsp.enable({ 'tsgo', 'gopls', 'intelephense', 'basedpyright', 'prismals' })
+vim.lsp.enable({ 'tsgo', 'gopls', 'phpantom_lsp', 'basedpyright' })
 
--- require('neogit').setup()
 require('oil').setup()
 require('mason').setup()
--- require('flutter-tools').setup()
 -- require('copilot').setup({
 --   suggestion = {
 --     accept = '<C-y>',
@@ -75,18 +56,14 @@ require('mason').setup()
 --   }
 -- })
 
--- write a function that gets weather in my city
+require 'config.plugins.mini_pick'
+require 'config.plugins.blink_cmp'
+require 'config.plugins.nvim-lint'
+require 'config.plugins.conform'
+require 'config.plugins.multicursor'
 
-require 'setup.plugins.mini_pick'
--- require 'setup.plugins.blink_cmp'
--- require 'setup.plugins.nvim-lint'
--- require 'setup.plugins.conform'
--- require 'setup.plugins.lualine'
--- require 'setup.plugins.nvim-treesitter'
-require 'setup.plugins.multicursor'
-
-require 'setup.highlight_on_yank'
-require 'setup.colorscheme'
+require 'config.highlight_on_yank'
+require 'config.colorscheme'
 
 
 vim.keymap.set('n', '<leader>oo', ':Oil<CR>', { desc = 'Open file explorer' })
@@ -101,19 +78,13 @@ vim.keymap.set('n', '<leader>ld', vim.lsp.buf.definition, { desc = 'LSP Definiti
 vim.keymap.set('n', '<leader>lD', vim.lsp.buf.declaration, { desc = 'LSP Declaration' })
 vim.keymap.set('n', '<leader>ls', vim.lsp.buf.document_symbol, { desc = 'LSP Document Sybmols' })
 vim.keymap.set('n', '<leader>lh', vim.lsp.buf.signature_help, { desc = 'LSP Signature help' })
--- vim.keymap.set('n', '<leader>lf', require('conform').format, { desc = 'LSP Format' })
+vim.keymap.set('n', '<leader>ll', require('lint').try_lint, { desc = 'Lint' })
+vim.keymap.set('n', '<leader>lf', require('conform').format, { desc = 'LSP Format' })
 
 vim.keymap.set('n', '<leader>ff', ':Pick files<CR>')
 vim.keymap.set('n', '<leader>fg', ':Pick grep<CR>')
 vim.keymap.set('n', '<leader>fr', ':Pick resume<CR>')
 vim.keymap.set('n', '<leader>gg', ':G<CR>')
-
-        -- vim.keymap.set('n', '<leader>tt', function()
-          --   vim.cmd.new()
-          --   vim.cmd.wincmd 'J'
-          --   vim.cmd.term()
-          --   vim.api.nvim_win_set_height(0, 8)
-          -- end, { desc = 'Open terminal' })
 
 local bufdelete = require 'plugins/bufdelete'
 vim.keymap.set('n', '<leader>bd', bufdelete.delete, { desc = 'Close current buffer' })

@@ -16,7 +16,7 @@ require('blink.cmp').setup {
       auto_show = false,
       draw = {
       columns = {
-        { "kind_icon", "label",  gap = 1 },
+        { "label",  gap = 1 },
         { "kind", "label_description", gap = 2 }
       },
       }
