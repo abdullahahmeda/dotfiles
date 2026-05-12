@@ -9,6 +9,7 @@ vim.o.cursorline     = true
 vim.o.clipboard      = "unnamedplus"
 vim.o.smartcase      = false
 vim.o.signcolumn     = "yes"
+vim.o.termbidi       = true
 -- vim.o.grepprg        = "rg --vimgrep --no-heading" 
 
 vim.pack.add {
@@ -40,13 +41,17 @@ vim.pack.add {
   { src = 'https://github.com/nvim-mini/mini.pick' },
 
   -- Multicursor
-  { src = 'https://github.com/jake-stewart/multicursor.nvim' }
+  { src = 'https://github.com/jake-stewart/multicursor.nvim' },
+
+  -- Copilot
+  -- { src = 'https://github.com/zbirenbaum/copilot.lua' }
 }
 
 vim.lsp.enable({ 'tsgo', 'gopls', 'phpantom_lsp', 'basedpyright' })
 
 require('oil').setup()
 require('mason').setup()
+-- require('copilot').setup()
 -- require('copilot').setup({
 --   suggestion = {
 --     accept = '<C-y>',

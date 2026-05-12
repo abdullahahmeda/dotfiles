@@ -5,7 +5,7 @@ require("conform").setup({
     typescriptreact = {'prettierd'},
     typescript = {'prettierd'},
     html = {'prettierd'},
-    -- php = {'php-cs-fixer'},
+    php = {'pint'},
     python = { 'ruff_format' },
     dart = { 'dart_format' }
   },
