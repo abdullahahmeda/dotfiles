@@ -29,7 +29,7 @@ vim.pack.add {
   { src = 'https://github.com/stevearc/conform.nvim' },
 
   -- completion
-  { src = 'https://github.com/saghen/blink.cmp', version = vim.version.range('1.*') },
+  -- just native completion with <C-x><C-o>
 
   -- git integration
   -- use lazygit
@@ -43,26 +43,14 @@ vim.pack.add {
   -- Multicursor
   { src = 'https://github.com/jake-stewart/multicursor.nvim' },
 
-  -- Copilot
-  -- { src = 'https://github.com/zbirenbaum/copilot.lua' }
 }
 
 vim.lsp.enable({ 'tsgo', 'gopls', 'phpantom_lsp', 'basedpyright' })
 
 require('oil').setup()
 require('mason').setup()
--- require('copilot').setup()
--- require('copilot').setup({
---   suggestion = {
---     accept = '<C-y>',
---     next = '<C-n>',
---     prev = '<C-p>',
---     dismiss = '<C-q>'
---   }
--- })
 
 require 'config.plugins.mini_pick'
-require 'config.plugins.blink_cmp'
 require 'config.plugins.nvim-lint'
 require 'config.plugins.conform'
 require 'config.plugins.multicursor'
@@ -94,3 +82,4 @@ vim.keymap.set('n', '<leader>gg', ':G<CR>')
 local bufdelete = require 'plugins/bufdelete'
 vim.keymap.set('n', '<leader>bd', bufdelete.delete, { desc = 'Close current buffer' })
 vim.keymap.set('n', '<leader>bo', bufdelete.other, { desc = 'Keep the current buffer only', silent = true })
+
