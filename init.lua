@@ -1,15 +1,32 @@
 vim.g.mapleader      = " "
+
 vim.o.winborder      = "rounded"
+
 vim.o.shiftwidth     = 2
 vim.o.tabstop        = 2
 vim.o.expandtab      = true
+
 vim.o.number         = true
 vim.o.relativenumber = true
 vim.o.cursorline     = true
+
 vim.o.clipboard      = "unnamedplus"
+
 vim.o.smartcase      = false
+
 vim.o.signcolumn     = "yes"
+
 vim.o.termbidi       = true
+
+vim.o.pumborder      = 'rounded'
+vim.opt.completeopt  = { 'menu', 'menuone', 'noselect', 'fuzzy' }
+
+vim.opt.foldexpr = 'v:lua.vim.treesitter.foldexpr()'
+vim.opt.foldmethod = 'expr'
+vim.opt.foldlevel = 99
+vim.opt.foldlevelstart = 99
+vim.opt.foldcolumn = '1'
+
 -- vim.o.grepprg        = "rg --vimgrep --no-heading" 
 
 vim.pack.add {
@@ -43,12 +60,15 @@ vim.pack.add {
   -- Multicursor
   { src = 'https://github.com/jake-stewart/multicursor.nvim' },
 
+  -- treesitter
+  { src = "https://github.com/romus204/tree-sitter-manager.nvim" }
 }
 
 vim.lsp.enable({ 'tsgo', 'gopls', 'phpantom_lsp', 'basedpyright' })
 
 require('oil').setup()
 require('mason').setup()
+require('tree-sitter-manager').setup()
 
 require 'config.plugins.mini_pick'
 require 'config.plugins.nvim-lint'

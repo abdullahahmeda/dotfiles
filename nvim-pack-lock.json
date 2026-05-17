@@ -31,6 +31,14 @@
     "oil.nvim": {
       "rev": "0fcc83805ad11cf714a949c98c605ed717e0b83e",
       "src": "https://github.com/stevearc/oil.nvim"
+    },
+    "tree-sitter-manager.nvim": {
+      "rev": "9e34b54ac652876953f0e55f879fe5652a6c86dd",
+      "src": "https://github.com/romus204/tree-sitter-manager.nvim"
+    },
+    "ts-comments.nvim": {
+      "rev": "123a9fb12e7229342f807ec9e6de478b1102b041",
+      "src": "https://github.com/folke/ts-comments.nvim"
     }
   }
 }
